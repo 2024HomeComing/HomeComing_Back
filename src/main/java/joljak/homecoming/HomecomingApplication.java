@@ -9,5 +9,5 @@ public class HomecomingApplication {
     public static void main(String[] args) {
         SpringApplication.run(HomecomingApplication.class, args);
     }
-     //ddddd
+     //안녕하세요
 }
