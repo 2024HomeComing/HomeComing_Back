@@ -1,6 +1,4 @@
 package joljak.homecoming;
 
-
-public class User {
-    //dd
+public class UserController {
 }
