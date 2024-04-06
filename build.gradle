@@ -11,6 +11,16 @@ java {
     sourceCompatibility = '21'
 }
 
+bootJar {
+
+    enabled = true
+
+    archiveClassifier = 'boot'
+
+    mainClass = 'joljak.homecoming.HomecomingApplication' // 패키지.메인클래스
+
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -35,6 +45,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
     runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
