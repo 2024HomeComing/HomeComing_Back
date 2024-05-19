@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface SightingBoardRepository extends JpaRepository<SightingBoard, Long> {
 
+
     Optional<SightingBoard> findByUserId(String userId);
     Optional<SightingBoard> findByIdAndUserId(Long id, String userId);
 

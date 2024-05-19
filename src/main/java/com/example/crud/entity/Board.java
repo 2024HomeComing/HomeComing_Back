@@ -18,14 +18,16 @@ public class Board {
     private String userId; // 게시글 작성한 유저 id
     private int age; // 반려동물 나이
 
+    private String title; //제목
     private String size; // 반려동물 사이즈
-    private String petName; // 반려동물 이름
-    private String petCharacter; // 반려동물 특징
-    private String furColor; // 반려동물 털색
+    private String name; // 반려동물 이름
+    private String characteristics; // 반려동물 특징
+    private String color; // 반려동물 털색
     private String breed; // 반려동물 품종
-    private String lastLocation; // 마지막 확인 장소
-    private String lastCheckTime; // 확인 시기
-    private String contact; // 연락처
+    private String lastSeenLocation; // 마지막 확인 장소
+    private String lastSeenTime; // 확인 시기
+    private String contact; // 연락처//
+    private String additionInfo; //추가정보
 
     private LocalDateTime createdAt; // 게시글 작성 시간
 

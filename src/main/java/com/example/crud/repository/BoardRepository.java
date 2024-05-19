@@ -18,8 +18,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Board b SET b.age = :age, b.size = :size, b.petName = :petName, b.petCharacter = :petCharacter, b.furColor = :furColor WHERE b.userId = :userId")
-    void updateBoardByUserId(String userId, int age, String size, String petName, String petCharacter, String furColor);
+    @Query("UPDATE Board b SET b.title = :title, b.age = :age, b.size = :size, b.name = :name, b.characteristics = :characteristics, b.color = :color, b.breed = :breed, b.lastSeenLocation = :lastSeenLocation, b.lastSeenTime = :lastSeenTime, b.additionInfo = :additionInfo  WHERE b.userId = :userId")
+    void updateBoardByUserId(String userId, String title, int age, String size, String name, String characteristics, String color, String breed, String lastSeenLocation, String lastSeenTime, String additionInfo);
 
     @Transactional
     @Modifying

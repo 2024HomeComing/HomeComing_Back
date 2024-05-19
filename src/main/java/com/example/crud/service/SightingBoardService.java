@@ -13,8 +13,15 @@ import java.util.Optional;
 public class SightingBoardService {
 
     @Autowired
-    private SightingBoardRepository sightingReportRepository;
     private SightingBoardRepository sightingBoardRepository;
+
+    @Autowired
+    private SightingBoardRepository sightingReportRepository;
+
+
+    public Long countPostsToday() {
+        return sightingBoardRepository.countPostsToday();
+    }
 
 
     public SightingBoard insertSightingReport(SightingBoard sightingReport) {
@@ -57,10 +64,6 @@ public class SightingBoardService {
         } else {
             throw new IllegalArgumentException("Sighting report with ID " + sightingId + " and User ID " + userId + " not found");
         }
-    }
-
-    public Long countPostsToday() {
-        return sightingBoardRepository.countPostsToday();
     }
 
     public void updateSightingReport(String userId, Long sightingBoardId, String breed, String size, String furColor, String petCharacter, String location, String sightingTime, String contact) {

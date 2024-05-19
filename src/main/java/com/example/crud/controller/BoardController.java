@@ -44,7 +44,8 @@ public class BoardController {
 
     @PutMapping("/{userId}")
     public void updateBoard(@PathVariable String userId, @RequestBody Board board) {
-        boardService.updateBoard(userId, board.getAge(), board.getSize(), board.getPetName(), board.getPetCharacter(), board.getFurColor());
+        boardService.updateBoard(userId,board.getTitle(), board.getAge(), board.getSize(), board.getName(), board.getCharacteristics(), board.getColor(), board.getBreed(), board.getLastSeenLocation(),
+                board.getLastSeenTime(), board.getAdditionInfo());
     }
 
     @DeleteMapping("/{userId}/{boardId}")

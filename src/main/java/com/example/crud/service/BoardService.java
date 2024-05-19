@@ -38,8 +38,8 @@ public class BoardService {
         return boardRepository.findByUserId(userId);
     }
 
-    public void updateBoard(String userId, int age, String size, String petName, String petCharacter, String furColor) {
-        boardRepository.updateBoardByUserId(userId, age, size, petName, petCharacter, furColor);
+    public void updateBoard(String userId,String title, int age, String size, String name, String characteristics, String color, String breed, String lastSeenLocation, String lastSeenTime, String additionInfo) {
+        boardRepository.updateBoardByUserId(userId, title, age, size, name, characteristics, color, breed, lastSeenLocation, lastSeenTime, additionInfo);
     }
 
 
