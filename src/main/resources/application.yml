@@ -1,0 +1,28 @@
+#spring.application.name=crud
+# ?? ?? ??
+server:
+  port: 9080
+
+# database ?? ??
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: thgus112!
+  thymeleaf:
+    cache: false
+
+# spring data jpa ??
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+
+# application.yml
+image:
+  upload:
+    dir: C:\Users\YourUsername\Documents\Images
