@@ -21,9 +21,8 @@ public class    BoardController {
     //}
 
     @PostMapping("")
-    public Board insertBoard(@RequestBody Board board) {
-
-        return boardService.insertBoard(board);
+    public Board insertBoard(@RequestPart("board") Board board, @RequestPart("image") MultipartFile imageFile) throws IOException {
+        return boardService.insertBoard(board, imageFile);
     }
 
     @GetMapping("/count/today")

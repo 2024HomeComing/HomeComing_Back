@@ -15,7 +15,10 @@ public class BoardService {
     BoardRepository boardRepository;
 
     @Autowired
-    private ImageService imageService;
+    private S3Service s3Service;
+
+    //@Autowired
+    //private ImageService imageService;
 
     //@Autowired
     //private UserRepository userRepository;
@@ -23,10 +26,12 @@ public class BoardService {
     public Long countPostsToday() {
         return boardRepository.countPostsToday();
     }
-
-
-
-    public Board insertBoard(Board board) {
+    public Board insertBoard(Board board, MultipartFile imageFile) throws IOException {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String key = "images/" + board.getUserId() + "/" + imageFile.getOriginalFilename();
+            String imageUrl = s3Service.uploadFile(key, imageFile.getBytes());
+            board.setImageUrl(imageUrl);
+        }
         return boardRepository.save(board);
     }
 

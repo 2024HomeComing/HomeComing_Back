@@ -20,7 +20,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-
+aws:
+  s3:
+    bucket : homecomingboard
 
 # application.yml
 image:

@@ -31,7 +31,7 @@ public class Board {
 
     private LocalDateTime createdAt; // 게시글 작성 시간
 
-
+    private String imageUrl; // 추가된 필드
 
     @PrePersist
     public void prePersist() {
