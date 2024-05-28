@@ -27,4 +27,4 @@ aws:
 # application.yml
 image:
   upload:
-    dir: C:\Users\YourUsername\Documents\Images
+    dir: C:\Users\ASUS\Documents\Images

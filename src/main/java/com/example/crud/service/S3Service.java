@@ -9,7 +9,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Paths;
 
 @Service
 public class S3Service {
