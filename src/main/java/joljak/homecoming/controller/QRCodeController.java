@@ -1,36 +1,55 @@
 package joljak.homecoming.controller;
 
-import joljak.homecoming.entity.PetQrInfo;
+import joljak.homecoming.dto.PetInfoDTO;
+import joljak.homecoming.entity.PetInfo;
+import joljak.homecoming.entity.User;
+import joljak.homecoming.repository.PetInfoRepository;
+import joljak.homecoming.repository.UserRepository;
 import joljak.homecoming.service.QRCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/qr")
 public class QRCodeController {
 
     @Autowired
+    private PetInfoRepository petInfoRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private QRCodeService qrCodeService;
 
     @PostMapping("/generate")
 
-    public ResponseEntity<byte[]> generateQRCode(@RequestBody PetQrInfo petQrInfo) {
-        try {
-            String petInfoText = String.format("털색: %s, 좋아하는 것: %s, 싫어하는 것: %s, 사는 지역: %s, 전화번호: %s, 메뉴얼: %s",
-                    petQrInfo.getFurColor(), petQrInfo.getLikes(), petQrInfo.getDislikes(),
-                    petQrInfo.getRegion(), petQrInfo.getPhoneNumber(), petQrInfo.getManual());
+    public ResponseEntity<byte[]> createPetInfo(@RequestBody PetInfoDTO petInfoDTO) throws Exception {
 
-            byte[] qrImage = qrCodeService.generateQRCode(petInfoText);
+        String provider = "kakao"  + petInfoDTO.getUserId();
+        User user = userRepository.findByProvider(provider)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // PetInfo 객체 생성
+        PetInfo petInfo = new PetInfo();
+        petInfo.setName(petInfoDTO.getName());
+        petInfo.setSpecies(petInfoDTO.getSpecies());
+        petInfo.setHairColor(petInfoDTO.getHairColor());
+        petInfo.setLikeDislike(petInfoDTO.getLikeDislike());
+        petInfo.setLocation(petInfoDTO.getLocation());
+        petInfo.setPhoneNumber(petInfoDTO.getPhoneNumber());
+        petInfo.setManual(petInfoDTO.getManual());
+        petInfo.setUser(user);
+
+        petInfo = petInfoRepository.save(petInfo);
+        String petQRInfoUrl = "https://homeskyul.store/petinfo/" + petInfo.getId(); // 실제 프론트엔드 URL로 교체해야 합니다.
+        byte[] qrCode = qrCodeService.generateQRCode(petQRInfoUrl, 300, 300);
             System.out.println("QR 생성됨");
-            return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.IMAGE_PNG).body(qrImage);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+            return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.IMAGE_PNG).body(qrCode);
     }
 }
