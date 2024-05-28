@@ -1,9 +1,13 @@
 package joljak.homecoming.repository;
 
-import joljak.homecoming.entity.UserEntity;
+import joljak.homecoming.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+import java.util.Optional;
 
-    UserEntity findByUsername(String username);
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByProvider(String provider);
+    User findByName(String name);
 }
