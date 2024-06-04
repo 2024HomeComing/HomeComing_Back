@@ -28,7 +28,7 @@ public class BoardService {
     }
     public Board insertBoard(Board board, MultipartFile imageFile) throws IOException {
         if (imageFile != null && !imageFile.isEmpty()) {
-            String key = "images/" + board.getUserId() + "/" + imageFile.getOriginalFilename();
+            String key = "images/" + board.getUser().getProviderId() + "/" + imageFile.getOriginalFilename();
             String imageUrl = s3Service.uploadFile(key, imageFile.getBytes());
             board.setImageUrl(imageUrl);
         }
@@ -40,10 +40,10 @@ public class BoardService {
     }
 
     public Board getBoardByUserId(String userId) {
-        return boardRepository.findByUserId(userId);
+        return boardRepository.findByUserId(Long.valueOf(userId));
     }
 
-    public void updateBoard(String userId,String title, int age, String size, String name, String characteristics, String color, String breed, String lastSeenLocation, String lastSeenTime, String additionInfo) {
+    public void updateBoard(String userId,String title, String age, String size, String name, String characteristics, String color, String breed, String lastSeenLocation, String lastSeenTime, String additionInfo) {
         boardRepository.updateBoardByUserId(userId, title, age, size, name, characteristics, color, breed, lastSeenLocation, lastSeenTime, additionInfo);
     }
 

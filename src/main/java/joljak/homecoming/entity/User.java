@@ -16,6 +16,7 @@ public class User {
     private Long id;
 
     private String provider;
+    private String providerId;
     private String name;
     private String email;
     private String phoneNumber;

@@ -31,4 +31,6 @@ public class ReportController {
     public String successReport(){
         return "successPage";
     }
+
+
 }

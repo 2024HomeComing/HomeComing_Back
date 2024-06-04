@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>홈커밍 목격신고</title>
     <style>
         .info-text {
@@ -10,11 +11,18 @@
         }
         /* 기본 스타일 */
         body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Viewport Height를 기준으로 100% 높이 설정 */
             margin: 0;
             font-family: Arial, sans-serif;
         }
 
         form, div {
+            width: 100%; /* flex 컨테이너 안에서 폭을 최대로 설정 */
+            max-width: 600px; /* 최대 폭을 600px로 설정하여 너무 넓어지지 않도록 함 */
             padding: 0 20px;
         }
 
@@ -30,8 +38,8 @@
 
         button[type="submit"] {
             width: 100%;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #FFFACD;
+            color: black;
             padding: 14px 20px;
             margin: 8px 0;
             border: none;
@@ -40,7 +48,7 @@
         }
 
         button[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #FFFACD;
         }
 
         /* 모바일 화면에서 보기 좋게 조정 */

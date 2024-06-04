@@ -1,38 +1,35 @@
 package joljak.homecoming.service;
 
-import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 
 @Service
 public class S3Service {
+    private final AmazonS3 amazonS3;
 
-    private final S3Client s3Client;
-
-    @Value("${aws.s3.bucket}")
-    private String bucketName;
-
-    public S3Service() {
-        this.s3Client = S3Client.builder()
-                .region(Region.AP_NORTHEAST_2)  // 원하는 리전으로 변경
-                .credentialsProvider(ProfileCredentialsProvider.create())
-                .build();
+    @Autowired
+    public S3Service(AmazonS3 amazonS3) {
+        this.amazonS3 = amazonS3;
     }
 
-    public String uploadFile(String key, byte[] fileData) {
-        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket(bucketName)
-                .key(key)
-                .build();
+    public String uploadFile(String key, byte[] content) throws IOException {
+        String bucketName = "homecoming-image"; // 실제 사용 중인 S3 버킷 이름으로 교체하세요.
 
-        PutObjectResponse response = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(fileData));
-        return s3Client.utilities().getUrl(builder -> builder.bucket(bucketName).key(key)).toExternalForm();
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(content.length);
+
+        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(content)) {
+            amazonS3.putObject(bucketName, key, byteArrayInputStream, metadata);
+        }
+        System.out.println("사진 업로드 됨.");
+        return amazonS3.getUrl(bucketName, key).toString();
     }
+
 }

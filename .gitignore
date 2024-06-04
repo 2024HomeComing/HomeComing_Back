@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### AWS credentials ###
+aws_access_key_id.txt
+aws_secret_access_key.txt
+*.env
+
