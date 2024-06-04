@@ -51,15 +51,16 @@ public class UserService {
     //카카오 로그인
 public void createUser(KakaoResDto kakaoResDto) {
     // 사용자 식별자를 기준으로 기존 사용자 검색
-    String provider = "kakao" + kakaoResDto.getUserId();
-    Optional<User> existingUser = userRepository.findByProvider(provider);
-
+    String providerId=kakaoResDto.getUserId();
+    Optional<User> existingUser = userRepository.findByProviderId(providerId);
+    String provider = "kakao";
     if (existingUser.isPresent()) {
         // 기존 사용자 업데이트
         User user = existingUser.get();
         user.setName(kakaoResDto.getName());
         user.setEmail(kakaoResDto.getEmail());
         user.setPhoneNumber(kakaoResDto.getPhoneNumber());
+        user.setProviderId(kakaoResDto.getUserId());
         System.out.println("기존 유저입니다.");
         userRepository.save(user);
     } else {
@@ -69,6 +70,7 @@ public void createUser(KakaoResDto kakaoResDto) {
         newUser.setName(kakaoResDto.getName());
         newUser.setEmail(kakaoResDto.getEmail());
         newUser.setPhoneNumber(kakaoResDto.getPhoneNumber());
+        newUser.setProviderId(kakaoResDto.getUserId());
         System.out.println("신규 유저입니다.");
         userRepository.save(newUser);
     }

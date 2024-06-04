@@ -31,8 +31,8 @@ public class QRCodeController {
 
     public ResponseEntity<byte[]> createPetInfo(@RequestBody PetInfoDTO petInfoDTO) throws Exception {
 
-        String provider = "kakao"  + petInfoDTO.getUserId();
-        User user = userRepository.findByProvider(provider)
+        String providerId = petInfoDTO.getUserId();
+        User user = userRepository.findByProviderId(providerId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // PetInfo 객체 생성

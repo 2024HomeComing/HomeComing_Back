@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>홈커밍 목격신고</title>
+    <style>
+        .info-text {
+            color: gray;
+            font-style: italic;
+        }
+        /* 기본 스타일 */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Viewport Height를 기준으로 100% 높이 설정 */
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        form, div {
+            width: 100%; /* flex 컨테이너 안에서 폭을 최대로 설정 */
+            max-width: 600px; /* 최대 폭을 600px로 설정하여 너무 넓어지지 않도록 함 */
+            padding: 0 20px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background-color: #FFFACD;
+            color: black;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #FFFACD;
+        }
+
+        /* 모바일 화면에서 보기 좋게 조정 */
+        @media screen and (max-width: 600px) {
+            h1, h2 {
+                font-size: 1.5rem;
+            }
+
+            .info-text {
+                font-size: 0.8rem;
+            }
+
+            input[type="text"], textarea {
+                padding: 15px;
+            }
+
+            button[type="submit"] {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>반려동물 정보</h1>
+
+<div>
+    <p><strong>이름:</strong> <span th:text="${petinfo.name}">이름</span></p>
+    <p><strong>품종:</strong> <span th:text="${petinfo.species}">품종</span></p>
+    <p><strong>털 색:</strong> <span th:text="${petinfo.hairColor}">털 색</span></p>
+    <p><strong>좋아하는 것/싫어하는 것:</strong> <span th:text="${petinfo.likeDislike}">좋아하는 것/싫어하는 것</span></p>
+    <p><strong>지역:</strong> <span th:text="${petinfo.location}">지역</span></p>
+    <p><strong>연락처:</strong> <span th:text="${petinfo.phoneNumber}">연락처</span></p>
+    <p><strong>메뉴얼:</strong> <span th:text="${petinfo.manual}">메뉴얼</span></p>
+</div>
+
+<h2>주인에게 신고해주세요!</h2>
+<form action="/report" method="post">
+    <input type="hidden" name="petInfoId" th:value="${petinfo.id}" />
+    <div>
+        <label for="reporterName">신고자 이름:</label>
+        <input type="text" id="reporterName" name="reporterName" />
+    </div>
+    <div>
+        <label for="phoneNumber">연락처:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" />
+    </div>
+    <div>
+        <label for="details">상세 내용:</label>
+        <textarea id="details" name="details" required></textarea>
+    </div>
+    <div class="info-text">
+        이름과 연락처 기재는 필수가 아닙니다!<br>
+        추가적으로 반려동물 주인과 연락을 하고 싶으시다면 기재해주세요!
+    </div>
+    <button type="submit">신고 제출</button>
+</form>
+</body>
+</html>
