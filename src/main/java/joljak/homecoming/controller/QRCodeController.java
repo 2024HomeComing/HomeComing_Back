@@ -47,9 +47,13 @@ public class QRCodeController {
         petInfo.setUser(user);
 
         petInfo = petInfoRepository.save(petInfo);
+
         String petQRInfoUrl = "https://homeskyul.store/petinfo/" + petInfo.getId(); // 실제 프론트엔드 URL로 교체해야 합니다.
         byte[] qrCode = qrCodeService.generateQRCode(petQRInfoUrl, 300, 300);
-            System.out.println("QR 생성됨");
-            return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.IMAGE_PNG).body(qrCode);
+        petInfo.setQrCodeImage(qrCode);
+        petInfoRepository.save(petInfo);
+        System.out.println("QR DB에 저장됨.");
+        System.out.println("QR 생성됨");
+        return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.IMAGE_PNG).body(qrCode);
     }
 }

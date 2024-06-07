@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/boards")
+@RequestMapping("/api/boards")
 public class    BoardController {
 
     @Autowired
