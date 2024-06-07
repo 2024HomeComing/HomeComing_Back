@@ -17,8 +17,8 @@ public class PetService {
     @Autowired
     private ReportRepository reportRepository;
 
-    public List<PetInfo> getPetsByUserId(Long userId) {
-        return petInfoRepository.findByUserId(userId);
+    public List<PetInfo> getPetsByUserId(Long userDbId) {
+        return petInfoRepository.findByUserId(userDbId);
     }
 
     public List<Report> getReportsByPetInfoId(Long petInfoId) {
