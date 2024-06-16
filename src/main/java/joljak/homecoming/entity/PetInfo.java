@@ -23,6 +23,7 @@ public class PetInfo {
     private String phoneNumber;
     private String manual;
     private byte[] qrCodeImage;
+    private String imageUrl;
 
     @ManyToOne
     private User user;

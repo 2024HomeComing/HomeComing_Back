@@ -52,21 +52,20 @@
         }
 
         /* 모바일 화면에서 보기 좋게 조정 */
+        /* 모바일 화면에서 폼 스타일 */
         @media screen and (max-width: 600px) {
-            h1, h2 {
-                font-size: 1.5rem;
-            }
-
-            .info-text {
-                font-size: 0.8rem;
+            form, div {
+                padding: 0 10px;
             }
 
             input[type="text"], textarea {
-                padding: 15px;
+                padding: 12px;
+                margin: 8px 0;
             }
 
             button[type="submit"] {
-                padding: 20px;
+                padding: 16px 20px;
+                margin: 6px 0;
             }
         }
     </style>

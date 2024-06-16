@@ -39,14 +39,17 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public Board getBoardByUserId(String userId) {
-        return boardRepository.findByUserId(Long.valueOf(userId));
+    public List<Board> getBoardByUserId(long userId) {
+        return boardRepository.findByUserId(userId);
     }
 
-    public void updateBoard(String userId,String title, String age, String size, String name, String characteristics, String color, String breed, String lastSeenLocation, String lastSeenTime, String additionInfo) {
-        boardRepository.updateBoardByUserId(userId, title, age, size, name, characteristics, color, breed, lastSeenLocation, lastSeenTime, additionInfo);
+    public void updateBoard(String userId,String boardId, String title, String age, String size, String name, String characteristics, String color, String breed, String lastSeenLocation, String lastSeenTime, String additionInfo) {
+        boardRepository.updateBoardByUserId(userId, boardId, title, age, size, name, characteristics, color, breed, lastSeenLocation, lastSeenTime, additionInfo);
     }
 
+    public Board getBoardById(Long boardId) {
+        return boardRepository.findById(boardId).orElse(null);
+    }
 
 
     public void deleteBoard(String userId, Long boardId) {
