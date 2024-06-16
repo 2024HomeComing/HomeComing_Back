@@ -12,9 +12,9 @@ import java.util.Optional;
 public interface SightingBoardRepository extends JpaRepository<SightingBoard, Long> {
 
 
-    Optional<SightingBoard> findByUserId(String userId);
-    Optional<SightingBoard> findByIdAndUserId(Long id, String userId);
+    Optional<SightingBoard> findByUserId(Long userId);
+    Optional<SightingBoard> findByIdAndUserId(Long id, Long userId);
 
-    @Query("SELECT COUNT(s) FROM SightingBoard s WHERE s.createdAt >= CURRENT_DATE")
+    @Query("SELECT COUNT(s) FROM SightingBoard s WHERE s.wcreatedAt >= CURRENT_DATE")
     Long countPostsToday();
 }

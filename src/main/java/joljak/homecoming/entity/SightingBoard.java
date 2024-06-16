@@ -14,20 +14,24 @@ public class SightingBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userId;
-    private String name;
-    private String breed; // 품종
-    private String size; // 크기
-    private String furColor; // 털 색상
-    private String petCharacter; // 특징
-    private String location; // 위치
-    private String sightingTime; // 시간
-    private String contact; // 연락처
+    private String wtitle;
+    private String username;
+    private String wbreed; // 품종
+    private String wsize; // 크기
+    private String wcolor; // 털 색상
+    private String wcharacteristics; // 특징
+    private String wadditionalInfo;
+    private String wlastSeenLocation; // 위치
+    private String wlastSeenTime; // 시간
+    private String wcontact; // 연락처
 
-    private LocalDateTime createdAt; // 게시글 작성 시간
+    private LocalDateTime wcreatedAt; // 게시글 작성 시간
+    private String wImageUrl;
 
+    @ManyToOne
+    private User user;
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
+        this.wcreatedAt = LocalDateTime.now();
     }
 }

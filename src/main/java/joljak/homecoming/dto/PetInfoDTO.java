@@ -14,5 +14,6 @@ public class PetInfoDTO {
     private String phoneNumber;
     private String manual;
     private String userId;
+    private String imageUrl;
 
 }

@@ -70,25 +70,60 @@ public class    BoardController {
         return boardService.countPostsToday();
     }
 
+
+    //전체 게시글 조회
     @GetMapping("")
     public List<Board> getAllBoards() {
         return boardService.getAllBoards();
     }
 
-    @GetMapping("/{userId}")
-    public Board getBoardByUserId (@PathVariable String userId) {
+    @GetMapping("/{boardId}")
+    public ResponseEntity<Board> getBoardById(@PathVariable Long boardId) {
+        Board board = boardService.getBoardById(boardId);
+        if (board != null) {
+            return ResponseEntity.ok(board);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getBoardByUserId (@PathVariable String userId) {
 
-        return boardService.getBoardByUserId(userId);
+        try {
+            User user = userRepository.findByProviderId(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            Long userDbId = user.getId();
+            List<Board> board = boardService.getBoardByUserId(userDbId);
+            if (board == null) {
+                throw new RuntimeException("No board found for this user");
+            }
+            return new ResponseEntity<>(board, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
-    @PutMapping("/{userId}")
-    public void updateBoard(@PathVariable String userId, @RequestBody Board board) {
-        boardService.updateBoard(userId,board.getTitle(), board.getAge(), board.getSize(), board.getName(), board.getCharacteristics(), board.getColor(), board.getBreed(), board.getLastSeenLocation(),
-                board.getLastSeenTime(), board.getAdditionalInfo());
+    @PutMapping("/{userId}/{boardId}")
+    public ResponseEntity<?> updateBoard(@PathVariable String userId, @RequestBody Board board) {
+        try {
+            User user = userRepository.findByProviderId(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            boardService.updateBoard(userId, String.valueOf(board.getId()),board.getTitle(), board.getAge(), board.getSize(), board.getName(), board.getCharacteristics(), board.getColor(), board.getBreed(), board.getLastSeenLocation(),
+                    board.getLastSeenTime(), board.getAdditionalInfo());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @DeleteMapping("/{userId}/{boardId}")
-    public void deleteBoard(@PathVariable String userId, @PathVariable Long boardId) {
-        boardService.deleteBoard(userId, boardId);
-    }
+
+//    @DeleteMapping("/{userId}/{boardId}")
+//    public void deleteBoard(@PathVariable String userId, @PathVariable Long boardId) {
+//        boardService.deleteBoard(userId, boardId);
+//    }
 }
