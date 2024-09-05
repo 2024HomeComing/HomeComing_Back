@@ -17,8 +17,12 @@ public class User {
 
     private String provider;
     private String providerId;
-    private String name;
+    private String name; //프로필전용
     private String email;
     private String phoneNumber;
+    private String profileImage; //프로필전용
+    private String details; // 프로필전용
+    private String region; //프로필전용
+    private String fcmToken; // FCM 토큰 저장
 
 }
