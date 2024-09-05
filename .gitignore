@@ -41,3 +41,4 @@ aws_access_key_id.txt
 aws_secret_access_key.txt
 *.env
 
+/src/main/resources/homecoming-be03d-firebase-adminsdk-dj1qh-f2419f72cd.json

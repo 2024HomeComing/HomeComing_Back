@@ -10,4 +10,5 @@ public class KakaoResDto {
     String name;
     String email;
     String phoneNumber;
+    String fcmToken;
 }

@@ -1,12 +1,15 @@
 package joljak.homecoming.service;
 
 import joljak.homecoming.dto.KakaoResDto;
+import joljak.homecoming.dto.ProfileUpdateDto;
 import joljak.homecoming.entity.User;
 import joljak.homecoming.jwt.JwtUtil;
 import joljak.homecoming.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -16,16 +19,46 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private S3Service s3Service;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
-    public Optional<User> getUser(Long id) {
-        return userRepository.findById(id);
+    public Optional<User> getUserProfile(String userId) {
+        return userRepository.findByProviderId(userId);
     }
 
     //프로필 수정
-    public User updateUser(Long id, User userDetails) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setName(userDetails.getName());
+    public User updateUser(ProfileUpdateDto profileUpdateDto, MultipartFile imageFile) throws IOException {
+        User user = userRepository.findByProviderId(profileUpdateDto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User with ID " + profileUpdateDto.getUserId() + " not found"));
+
+        user.setName(profileUpdateDto.getNickname());
+        user.setRegion(profileUpdateDto.getRegion());
+        user.setDetails(profileUpdateDto.getDetails());
+
+        // 조건문 내부 디버깅 정보 출력
+        System.out.println("이미지 파일: " + (imageFile != null ? imageFile.getOriginalFilename() : "null"));
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                String key = "profileimages/" + user.getProviderId() + "/" + imageFile.getOriginalFilename();
+                String imageUrl = s3Service.uploadFile(key, imageFile.getBytes());
+
+                // 업로드된 이미지 URL 로그 출력
+                System.out.println("S3 업로드 URL: " + imageUrl);
+
+                user.setProfileImage(imageUrl);
+            } catch (Exception e) {
+                // 예외 발생 시 로그 출력
+                System.err.println("이미지 업로드 중 오류 발생: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        // 최종 사용자 객체 상태 로그 출력
+        System.out.println("저장 전 사용자 객체: " + user);
+
         return userRepository.save(user);
     }
 
@@ -61,6 +94,7 @@ public void createUser(KakaoResDto kakaoResDto) {
         user.setEmail(kakaoResDto.getEmail());
         user.setPhoneNumber(kakaoResDto.getPhoneNumber());
         user.setProviderId(kakaoResDto.getUserId());
+        user.setFcmToken(kakaoResDto.getFcmToken());
         System.out.println("기존 유저입니다.");
         userRepository.save(user);
     } else {
@@ -71,8 +105,14 @@ public void createUser(KakaoResDto kakaoResDto) {
         newUser.setEmail(kakaoResDto.getEmail());
         newUser.setPhoneNumber(kakaoResDto.getPhoneNumber());
         newUser.setProviderId(kakaoResDto.getUserId());
+        newUser.setFcmToken(kakaoResDto.getFcmToken());
         System.out.println("신규 유저입니다.");
         userRepository.save(newUser);
     }
 }
+    public String getFcmTokenByUserId(String userId) {
+        return userRepository.findByProviderId(userId)
+                .map(User::getFcmToken)
+                .orElse(null);
+    }
 }
