@@ -111,8 +111,15 @@ public void createUser(KakaoResDto kakaoResDto) {
     }
 }
     public String getFcmTokenByUserId(String userId) {
-        return userRepository.findByProviderId(userId)
+        return userRepository.findById(Long.valueOf(userId))
                 .map(User::getFcmToken)
                 .orElse(null);
+    }
+
+    public String getProviderIdByUserId(String userId) {
+        Long id = Long.valueOf(userId); // userId를 Long으로 변환
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다.")); // 사용자 없을 시 예외 처리
+        return user.getProviderId(); // providerId 반환
     }
 }
