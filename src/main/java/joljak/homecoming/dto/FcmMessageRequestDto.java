@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class FcmMessageRequestDto {
 
     private String userId;
@@ -19,9 +18,10 @@ public class FcmMessageRequestDto {
 
     private String targetToken; //FCM 토큰
 
-    public FcmMessageRequestDto(String title, String message, String targetToken) {
+    public FcmMessageRequestDto(String title, String message, String targetToken, String userId) {
         this.title = title;
         this.message = message;
         this.targetToken = targetToken;
+        this.userId = userId;
     }
 }
