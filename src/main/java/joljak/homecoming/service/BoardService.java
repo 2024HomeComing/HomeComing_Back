@@ -35,6 +35,10 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
+    public List<Board> getPostsToday() {
+        return boardRepository.findPostsToday();
+    }
+
     public List<Board> getAllBoards() {
         return boardRepository.findAll();
     }

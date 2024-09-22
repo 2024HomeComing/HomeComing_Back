@@ -18,10 +18,13 @@ public class FcmMessageRequestDto {
 
     private String targetToken; //FCM 토큰
 
-    public FcmMessageRequestDto(String title, String message, String targetToken, String userId) {
+    private String reportId;
+
+    public FcmMessageRequestDto(String title, String message, String targetToken, String userId, String reportId) {
         this.title = title;
         this.message = message;
         this.targetToken = targetToken;
         this.userId = userId;
+        this.reportId = reportId;
     }
 }

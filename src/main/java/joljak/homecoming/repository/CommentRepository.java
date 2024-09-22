@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findByBoard(Board board);
+    List<Comment> findByBoardId(Long boardId);
 
     @Transactional
     @Modifying
@@ -26,3 +26,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
 
 }
+

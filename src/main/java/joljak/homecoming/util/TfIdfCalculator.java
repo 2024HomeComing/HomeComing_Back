@@ -59,7 +59,7 @@ public class TfIdfCalculator {
             }
         }
 //        idfMap.replaceAll((k, v) -> Math.log((double) totalDocuments / (v + 1))); gpt가 추천해준거 이거로 활용하면 값이 변경됌
-        idfMap.replaceAll((k, v) -> Math.log((double) totalDocuments / v)); // 기존에 있던거
+        idfMap.replaceAll((k, v) -> Math.log1p((double) totalDocuments / (v + 1)));
 
         logger.info("IDF Map: {}",idfMap);
         return idfMap;

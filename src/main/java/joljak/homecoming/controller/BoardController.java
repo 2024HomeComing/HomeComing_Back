@@ -65,6 +65,13 @@ public class    BoardController {
         return board;
     }
 
+    @GetMapping("/posts/today")
+    public ResponseEntity<List<Board>> getPostsToday() {
+        List<Board> postsToday = boardService.getPostsToday();
+        return new ResponseEntity<>(postsToday, HttpStatus.OK);
+
+    }
+
     @GetMapping("/count/today")
     public Long countPostsToday() {
         return boardService.countPostsToday();

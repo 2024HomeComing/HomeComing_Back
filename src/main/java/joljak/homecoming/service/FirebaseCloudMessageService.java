@@ -18,6 +18,7 @@ public class FirebaseCloudMessageService {
                 .putData("title", fcmMessageRequestDto.getTitle())
                 .putData("body", fcmMessageRequestDto.getMessage())
                 .putData("userId", fcmMessageRequestDto.getUserId()) // 데이터 추가
+                .putData("reportId", fcmMessageRequestDto.getReportId())
                 .setToken(fcmMessageRequestDto.getTargetToken())
                 .build();
 
