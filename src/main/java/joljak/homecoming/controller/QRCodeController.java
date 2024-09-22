@@ -56,4 +56,36 @@ public class QRCodeController {
         System.out.println("QR 생성됨");
         return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.IMAGE_PNG).body(qrCode);
     }
+
+    // QR 코드 수정
+    @PutMapping("/update/{petId}")
+    public ResponseEntity<?> updatePetInfo(@PathVariable Long petId, @RequestBody PetInfoDTO petInfoDTO) throws Exception {
+
+        PetInfo petInfo = petInfoRepository.findById(petId)
+                .orElseThrow(() -> new RuntimeException("Pet info not found"));
+
+        String providerId = petInfoDTO.getUserId();
+        User user = userRepository.findByProviderId(providerId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // PetInfo 정보 수정
+        petInfo.setName(petInfoDTO.getName());
+        petInfo.setSpecies(petInfoDTO.getSpecies());
+        petInfo.setHairColor(petInfoDTO.getHairColor());
+        petInfo.setLikeDislike(petInfoDTO.getLikeDislike());
+        petInfo.setLocation(petInfoDTO.getLocation());
+        petInfo.setPhoneNumber(petInfoDTO.getPhoneNumber());
+        petInfo.setManual(petInfoDTO.getManual());
+        petInfo.setUser(user);
+
+        // QR 코드 URL을 업데이트할 경우 새로 생성
+        String petQRInfoUrl = "https://homeskyul.store/petinfo/" + petInfo.getId();
+        byte[] qrCode = qrCodeService.generateQRCode(petQRInfoUrl, 300, 300);
+        petInfo.setQrCodeImage(qrCode);
+
+        petInfoRepository.save(petInfo);
+        System.out.println("QR 코드 및 펫 정보 수정됨.");
+
+        return new ResponseEntity<>(petInfo, HttpStatus.OK);
+    }
 }

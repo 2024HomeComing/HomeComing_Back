@@ -31,4 +31,6 @@ public class PetService {
         return reportRepository.findById(reportId);
     }
 
-}
+    public Optional<PetInfo> getPetById(Long petInfoId) { return petInfoRepository.findById(petInfoId);}
+    }
+

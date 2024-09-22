@@ -4,6 +4,7 @@ import joljak.homecoming.entity.Board;
 import joljak.homecoming.entity.Comment;
 import joljak.homecoming.repository.BoardRepository;
 import joljak.homecoming.repository.CommentRepository;
+import joljak.homecoming.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,51 +14,30 @@ import java.util.Optional;
 @Service
 public class CommentService {
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
     @Autowired
-    BoardRepository boardRepository;
+    private UserRepository userRepository;
 
-    public Comment addComment(Long boardId, String userId, String content) {
-        Optional<Board> boardOptional = boardRepository.findById(boardId);
-        if (boardOptional.isEmpty()) {
-            throw new IllegalArgumentException("Invalid board ID: " + boardId);
-        }
+    @Autowired
+    private BoardRepository boardRepository;
 
-        Board board = boardOptional.get();
-        Comment comment = new Comment();
-        comment.setBoard(board);
-        comment.setUserId(userId);
-        comment.setContent(content);
+    public Comment saveComment(Comment comment) {
         return commentRepository.save(comment);
     }
 
     public List<Comment> getCommentsByBoardId(Long boardId) {
-        Optional<Board> boardOptional = boardRepository.findById(boardId);
-        if (boardOptional.isEmpty()) {
-            throw new IllegalArgumentException("Invalid board ID: " + boardId);
-        }
-
-        Board board = boardOptional.get();
-        return commentRepository.findByBoard(board);
+        return commentRepository.findByBoardId(boardId);
     }
 
-    public void deleteComment(Long commentId) {
-        commentRepository.deleteById(commentId);
-    }
-
-    public void deleteCommentsByBoardId(Long boardId) {
-        commentRepository.deleteByBoardId(boardId);
-    }
-
-    public Comment updateComment(Long commentId, String content) {
-        Optional<Comment> commentOptional = commentRepository.findById(commentId);
-        if (commentOptional.isEmpty()) {
-            throw new IllegalArgumentException("Invalid comment ID: " + commentId);
-        }
-
-        Comment comment = commentOptional.get();
-        comment.setContent(content);
+    public Comment updateComment(Long id, String text) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comment not found"));
+        comment.setContent(text);
         return commentRepository.save(comment);
+    }
+
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
     }
 }

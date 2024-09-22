@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class Comment {
+public class Scomment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,8 +23,8 @@ public class Comment {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "sightingboard_id")
+    private SightingBoard sightingBoard;
 
     private LocalDateTime time; // 생성 시간
 

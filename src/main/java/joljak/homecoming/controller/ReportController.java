@@ -36,6 +36,8 @@ public class ReportController {
         report.setPetInfo(petInfo);
         Report savedReport = reportRepository.save(report);
 
+        String reportId = String.valueOf(savedReport.getId());
+        System.out.println("Saved Report ID: " + reportId);
         // 반려동물 주인의 FCM 토큰 조회
         String uId = String.valueOf(petInfo.getUser().getId());
         System.out.println("유저: " + uId);
@@ -50,7 +52,8 @@ public class ReportController {
                     "신고가 접수되었습니다!",
                     petName + "에 대한 신고가 접수되었습니다!",
                     fcmToken,
-                    userId
+                    userId,
+                    reportId
             );
             fcmService.sendNotification(fcmMessageRequest);
             System.out.println("알람이 성공적으로 발송됨.");

@@ -18,6 +18,9 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query("SELECT COUNT(b) FROM Board b WHERE b.createdAt >= CURRENT_DATE")
     Long countPostsToday();
 
+    @Query("SELECT b FROM Board b WHERE b.createdAt >= CURRENT_DATE")
+    List<Board> findPostsToday();
+
     @Transactional
     @Modifying
     @Query("UPDATE Board b SET b.title = :title, b.age = :age, b.size = :size, b.name = :name, b.characteristics = :characteristics, b.color = :color, b.breed = :breed, b.lastSeenLocation = :lastSeenLocation, b.lastSeenTime = :lastSeenTime, b.additionalInfo = :additionInfo  WHERE b.user.id = :userId and b.id = :boardId")
