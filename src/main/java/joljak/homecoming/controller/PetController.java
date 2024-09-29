@@ -28,7 +28,7 @@ public class PetController {
     private PetService petService;
 
     //반려동물 리스트 조회
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public List<PetInfo> getPetsByUserId(@PathVariable String userId) {
         User user = userRepository.findByProviderId(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -38,7 +38,7 @@ public class PetController {
     }
 
     //반려동물 상세조회
-    @GetMapping("/{petInfoId}")
+    @GetMapping("/petInfo/{petInfoId}")
     public PetInfo getPetById(@PathVariable Long petInfoId) {
         // 반려동물 ID로 반려동물 정보를 조회
 

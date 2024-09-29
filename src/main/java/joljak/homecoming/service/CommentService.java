@@ -22,6 +22,10 @@ public class CommentService {
     @Autowired
     private BoardRepository boardRepository;
 
+    public Optional<Comment> findById(Long id) {
+        return commentRepository.findById(id);
+    }
+
     public Comment saveComment(Comment comment) {
         return commentRepository.save(comment);
     }
