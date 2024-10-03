@@ -54,6 +54,10 @@ public class SightingBoardService {
         return  sightingBoardRepository.findById(sightingId).orElse(null);
     }
 
+    public List<SightingBoard> getPostsToday() {
+        return sightingBoardRepository.findPostsToday();
+    }
+
 //    public SightingBoard getSightingReportByUserId(String userId) {
 //        Optional<SightingBoard> sightingReportOptional = sightingReportRepository.findByUserId(userId);
 //        if (sightingReportOptional.isEmpty()) {

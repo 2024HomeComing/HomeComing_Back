@@ -40,6 +40,8 @@ public class QRCodeController {
 
 
         String providerId = petInfoDTO.getUserId();
+        // providerId 값이 제대로 받아와지는지 로그로 출력
+        System.out.println("Received providerId: " + providerId);
         User user = userRepository.findByProviderId(providerId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 

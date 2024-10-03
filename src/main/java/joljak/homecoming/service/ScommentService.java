@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScommentService {
@@ -30,6 +31,11 @@ public class ScommentService {
         scomment.setContent(text);
         return scommentRepository.save(scomment);
     }
+
+    public Optional<Scomment> findById(Long id) {
+        return scommentRepository.findById(id);
+    }
+
 
     public void deleteScomment(Long id) {
         scommentRepository.deleteById(id);

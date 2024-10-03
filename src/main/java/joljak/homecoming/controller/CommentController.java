@@ -73,29 +73,6 @@ public class CommentController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateComment(@PathVariable Long id, @RequestBody CommentDto commentDto) {
-        try {
-            // 수정하려는 댓글을 ID로 찾음
-            Comment existingComment = commentService.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Comment not found"));
-
-            // 요청한 사용자의 userId와 댓글 작성자의 userId를 비교
-            if (!existingComment.getUser().getProviderId().equals(commentDto.getUserId())) {
-                return new ResponseEntity<>("You are not allowed to update this comment", HttpStatus.FORBIDDEN);
-            }
-
-            // 본인의 댓글이면 수정 진행
-            Comment updatedComment = commentService.updateComment(id, commentDto.getContent());
-            return new ResponseEntity<>(updatedComment, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable Long id, @RequestParam String userId) {
         try {

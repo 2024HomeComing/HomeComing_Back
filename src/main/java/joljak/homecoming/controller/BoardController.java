@@ -1,8 +1,12 @@
 package joljak.homecoming.controller;
 
+import joljak.homecoming.dto.AllboardDTO;
 import joljak.homecoming.dto.BoardDto;
 import joljak.homecoming.entity.Board;
+import joljak.homecoming.entity.SightingBoard;
 import joljak.homecoming.entity.User;
+import joljak.homecoming.repository.BoardRepository;
+import joljak.homecoming.repository.SightingBoardRepository;
 import joljak.homecoming.repository.UserRepository;
 import joljak.homecoming.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/boards")
@@ -20,6 +25,13 @@ public class    BoardController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BoardRepository boardRepository;
+
+    @Autowired
+    private SightingBoardRepository sightingBoardRepository;
+
 
     @Autowired
     private BoardService boardService;
@@ -129,8 +141,37 @@ public class    BoardController {
     }
 
 
-//    @DeleteMapping("/{userId}/{boardId}")
-//    public void deleteBoard(@PathVariable String userId, @PathVariable Long boardId) {
-//        boardService.deleteBoard(userId, boardId);
-//    }
+    @DeleteMapping("/{userId}/{boardId}")
+    public void deleteBoard(@PathVariable String userId, @PathVariable Long boardId) {
+        boardService.deleteBoard(userId, boardId);
+    }
+
+    @GetMapping("/alltoday")
+    public List<AllboardDTO> getTodayAll() {
+        return boardService.getTodayAllPosts();
+    }
+
+    // 홈화면 게시물 상세 조회
+    @GetMapping("/{postType}/{id}")
+    public ResponseEntity<Object> getPostDetail(@PathVariable String postType, @PathVariable Long id) {
+        if (postType.equals("missing")) {
+            // 실종 게시판 조회
+            Optional<Board> board = boardRepository.findById(id);
+            if (board.isPresent()) {
+                return ResponseEntity.ok(board.get());
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else if (postType.equals("sighting")) {
+            // 목격 게시판 조회
+            Optional<SightingBoard> sightingBoard = sightingBoardRepository.findById(id);
+            if (sightingBoard.isPresent()) {
+                return ResponseEntity.ok(sightingBoard.get());
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().body("Invalid post type");
+        }
+    }
 }

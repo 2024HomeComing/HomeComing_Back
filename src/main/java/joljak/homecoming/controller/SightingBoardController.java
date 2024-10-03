@@ -96,5 +96,12 @@ public class SightingBoardController {
 //        sightingBoardService.updateSightingReport(userId, sightingId, sightingReport.getBreed(), sightingReport.getSize(), sightingReport.getFurColor(), sightingReport.getPetCharacter(), sightingReport.getLocation(), sightingReport.getSightingTime(), sightingReport.getContact());
 //    }
 
+    @GetMapping("/posts/today")
+    public ResponseEntity<List<SightingBoard>> getSightingToday() {
+        List<SightingBoard> postsToday = sightingBoardService.getPostsToday();
+        return new ResponseEntity<>(postsToday, HttpStatus.OK);
+
+    }
+
 
 }
