@@ -36,11 +36,6 @@ public class    BoardController {
     @Autowired
     private BoardService boardService;
 
-    //@PostMapping("/image")
-    //public Board insertBoard(@RequestBody Board board, @RequestParam("image") MultipartFile imageFile) throws IOException {
-    //    return boardService.insertBoard(board, imageFile);
-    //}
-
     @PostMapping("")
     public ResponseEntity<?> insertBoard(@RequestPart("board") BoardDto boardDto, @RequestPart(value = "images", required = false) MultipartFile imageFile) {
         String providerId = boardDto.getUserId();
