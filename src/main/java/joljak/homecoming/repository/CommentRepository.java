@@ -9,10 +9,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByBoardId(Long boardId);
+
+    public Optional<Comment> findById(Long id);
+
 
     @Transactional
     @Modifying

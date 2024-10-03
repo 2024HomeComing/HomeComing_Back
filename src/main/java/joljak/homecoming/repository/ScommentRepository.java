@@ -7,10 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ScommentRepository extends JpaRepository<Scomment, Long> {
     List<Scomment> findBySightingBoardId(Long sightingBoard);
 
+    public Optional<Scomment> findById(Long id);
 //    @Transactional
 //    @Modifying
 //    @Query("DELETE FROM Scomment sc WHERE sc.sightingboard.id = :boardId")

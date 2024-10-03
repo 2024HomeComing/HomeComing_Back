@@ -1,9 +1,11 @@
 package joljak.homecoming.repository;
 
 import joljak.homecoming.entity.Board;
+import joljak.homecoming.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +30,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Board u WHERE u.user = :userId AND u.id = :boardId")
-    void deleteBoardByUserIdAndBoardId(String userId, Long boardId);
+    @Query("DELETE FROM Board u WHERE u.user = :user AND u.id = :boardId")
+    void deleteBoardByUserAndBoardId(@Param("user") User user, @Param("boardId") Long boardId);
 
 }

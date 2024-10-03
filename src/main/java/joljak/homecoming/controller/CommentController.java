@@ -73,21 +73,19 @@ public class CommentController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateComment(@PathVariable Long id, @RequestBody String text) {
-        try {
-            Comment updatedComment = commentService.updateComment(id, text);
-            return new ResponseEntity<>(updatedComment, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteComment(@PathVariable Long id) {
+    public ResponseEntity<?> deleteComment(@PathVariable Long id, @RequestParam String userId) {
         try {
+            // 삭제하려는 댓글을 ID로 찾음
+            Comment existingComment = commentService.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Comment not found"));
+
+            // 요청한 사용자의 userId와 댓글 작성자의 userId를 비교
+            if (!existingComment.getUser().getProviderId().equals(userId)) {
+                return new ResponseEntity<>("You are not allowed to delete this comment", HttpStatus.FORBIDDEN);
+            }
+
+            // 본인의 댓글이면 삭제 진행
             commentService.deleteComment(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
@@ -96,4 +94,5 @@ public class CommentController {
             return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

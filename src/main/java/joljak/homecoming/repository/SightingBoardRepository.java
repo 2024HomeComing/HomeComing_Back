@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,4 +18,7 @@ public interface SightingBoardRepository extends JpaRepository<SightingBoard, Lo
 
     @Query("SELECT COUNT(s) FROM SightingBoard s WHERE s.wcreatedAt >= CURRENT_DATE")
     Long countPostsToday();
+
+    @Query("SELECT b FROM SightingBoard b WHERE b.wcreatedAt >= CURRENT_DATE")
+    List<SightingBoard> findPostsToday();
 }
