@@ -32,7 +32,7 @@ public class MatchService {
 
     @Autowired
     private SightingBoardRepository sightingBoardRepository;
-    private final Set<String> stopWords;
+    final Set<String> stopWords;
     private final TfIdfCalculator tfIdfCalculator;
 
     @Autowired
