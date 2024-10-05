@@ -17,6 +17,7 @@ public class MatchingController {
 
     @GetMapping("/{boardId}")
     public MatchResultDto findBestMatch(@PathVariable Long boardId) {
+
         return matchService.findBestMatch(boardId);
     }
 }
